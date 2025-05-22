@@ -1,6 +1,6 @@
 import { Switch, Route } from "wouter";
-import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider, RequireAuth } from "@/lib/AuthProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
@@ -11,8 +11,8 @@ import JoinRoom from "@/pages/join-room";
 import RoomView from "@/pages/room-view";
 import TransactionHistory from "@/pages/transaction-history";
 import Settings from "@/pages/settings";
-import { MainLayout } from "@/components/layout/sidebar";
-import { AuthProvider, RequireAuth } from "@/lib/AuthProvider";
+import { MainLayout } from "@/components/Layout/sidebar";
+import { queryClient } from "@/lib/queryClient";
 
 function Router() {
   return (

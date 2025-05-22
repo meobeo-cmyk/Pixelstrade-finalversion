@@ -4,7 +4,6 @@ import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
 export default defineConfig(async ({ mode }) => {
-  // dynamic import cho cartographer plugin khi dev trên Replit
   const plugins = [react(), runtimeErrorOverlay()];
 
   if (mode !== "production" && process.env.REPL_ID !== undefined) {
@@ -13,20 +12,31 @@ export default defineConfig(async ({ mode }) => {
   }
 
   return {
-    base: "/Pixelstrade-finalversion/", // nhớ chỉnh lại theo repo
+    base: "/Pixelstrade-finalversion/",
     plugins,
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "client", "src"),
-        "@shared": path.resolve(__dirname, "shared"),
-        "@assets": path.resolve(__dirname, "attached_assets"),
+        "@": path.resolve(process.cwd(), "client/src"),
+        "@shared": path.resolve(process.cwd(), "shared"),
+        "@assets": path.resolve(process.cwd(), "attached_assets"),
+        "@/components": path.resolve(process.cwd(), "client/src/components"),
+        "@/lib": path.resolve(process.cwd(), "client/src/lib"),
+        "@/hooks": path.resolve(process.cwd(), "client/src/hooks"),
       },
     },
-    root: path.resolve(__dirname, "client"),
+    root: path.resolve(process.cwd(), "client"),
     build: {
-      outDir: path.resolve(__dirname, "dist/public"),
+      outDir: path.resolve(process.cwd(), "dist/public"),
       emptyOutDir: true,
     },
+    server: {
+      fs: {
+        allow: [process.cwd()]
+      }
+    },
+    // Thêm optimizeDeps để đảm bảo dependencies được pre-bundled đúng
+    optimizeDeps: {
+      include: ['react', 'react-dom']
+    }
   };
 });
-
